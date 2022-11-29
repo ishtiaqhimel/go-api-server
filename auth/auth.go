@@ -4,8 +4,11 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/ishtiaqhimel/go-api-server/utils"
+	"log"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -40,11 +43,47 @@ func BasicAuth(next http.HandlerFunc) http.HandlerFunc {
 }
 
 func GetToken() (string, error) {
-	key := []byte("thisisasecretkeyihavegenerated")
+	key := []byte(utils.SECRET_KEY)
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"name": username,
 		"exp":  time.Now().Add(600 * time.Second).Unix(),
 	})
 	tokenString, err := token.SignedString(key)
 	return tokenString, err
+}
+
+func verifyToken(tokenString string) (jwt.Claims, error) {
+	signingKey := []byte(utils.SECRET_KEY)
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		return signingKey, nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	return token.Claims, err
+}
+
+func JWTAuth(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		tokenString := r.Header.Get("Authorization")
+		log.Println("JWT Token: ", tokenString)
+		if len(tokenString) == 0 {
+			w.WriteHeader(http.StatusUnauthorized)
+			w.Write([]byte("Missing Authorization Token"))
+			return
+		}
+
+		tokenString = strings.Replace(tokenString, "Bearer ", "", 1)
+		claims, err := verifyToken(tokenString)
+		if err != nil {
+			w.WriteHeader(http.StatusUnauthorized)
+			w.Write([]byte("Error verifying JWT token: " + err.Error()))
+			return
+		}
+
+		name := claims.(jwt.MapClaims)["name"].(string)
+		r.Header.Set("name", name)
+
+		next.ServeHTTP(w, r)
+	}
 }

@@ -64,3 +64,14 @@ await fetch('/subject', {
 		code: 'CSE-101',
 	})
 })
+
+Log In:
+
+await fetch('/login', {
+	method: 'POST',
+	headers: { 'content-type': 'application/json' },
+	body: JSON.stringify({
+		username: 'admin',
+		password: 'admin',
+	})
+})

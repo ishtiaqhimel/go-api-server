@@ -7,12 +7,12 @@ import (
 	"github.com/ishtiaqhimel/go-api-server/auth"
 	"github.com/ishtiaqhimel/go-api-server/db"
 	"github.com/ishtiaqhimel/go-api-server/handler"
+	"github.com/ishtiaqhimel/go-api-server/utils"
 	"log"
 	"net/http"
 )
 
 func main() {
-	port := ":3000"
 	students := db.NewStudent()
 	subjects := db.NewSubject()
 
@@ -22,7 +22,7 @@ func main() {
 	r.Post("/login", auth.BasicAuth(handler.LogIn))
 
 	// Student APIs
-	r.Get("/student", handler.StudentGet(students))
+	r.Get("/student", auth.JWTAuth(handler.StudentGet(students)))
 	r.Post("/student", handler.StudentPost(students))
 	r.Put("/student/{id}", handler.StudentUpdate(students))
 	r.Delete("/student/{id}", handler.StudentDelete(students))
@@ -33,6 +33,6 @@ func main() {
 	r.Put("/subject/{id}", handler.SubjectUpdate(subjects))
 	r.Delete("/subject/{id}", handler.SubjectDelete(subjects))
 
-	fmt.Println("Serving on port " + port)
-	log.Fatal(http.ListenAndServe(port, r))
+	fmt.Println("Serving on port " + utils.PORT)
+	log.Fatal(http.ListenAndServe(utils.PORT, r))
 }
