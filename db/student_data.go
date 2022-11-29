@@ -1,6 +1,9 @@
 package db
 
-import "github.com/ishtiaqhimel/go-api-server/model"
+import (
+	"errors"
+	"github.com/ishtiaqhimel/go-api-server/model"
+)
 
 // StudentRepo In memory Database for student
 type StudentRepo struct {
@@ -43,36 +46,46 @@ func NewStudent() *StudentRepo {
 
 type StudentService interface {
 	GetAll() []model.Student
-	Add(student model.Student)
-	DeleteById(id string)
-	UpdateById(id string, student model.Student)
+	Add(student model.Student) error
+	DeleteById(id string) error
+	UpdateById(id string, student model.Student) error
 }
 
-func (r *StudentRepo) Add(student model.Student) {
+func (r *StudentRepo) Add(student model.Student) error {
+	for _, stud := range r.Students {
+		if stud.Id == student.Id {
+			return errors.New("student with id " + student.Id + " already exists")
+		}
+	}
 	r.Students = append(r.Students, student)
+	return nil
 }
 
 func (r *StudentRepo) GetAll() []model.Student {
 	return r.Students
 }
 
-func (r *StudentRepo) DeleteById(id string) {
+func (r *StudentRepo) DeleteById(id string) error {
 	for i, student := range r.Students {
 		if id == student.Id {
 			// Do we need the ordered value? - No
 			r.Students[i] = r.Students[len(r.Students)-1]
 			r.Students[len(r.Students)-1] = model.Student{}
 			r.Students = r.Students[:len(r.Students)-1]
-			return
+			return nil
 		}
 	}
+
+	return errors.New("student with id " + id + " does not exist")
 }
 
-func (r *StudentRepo) UpdateById(id string, stud model.Student) {
+func (r *StudentRepo) UpdateById(id string, stud model.Student) error {
 	for i, student := range r.Students {
 		if id == student.Id {
 			r.Students[i] = stud
-			return
+			return nil
 		}
 	}
+
+	return errors.New("student with id " + id + " does not exist")
 }
