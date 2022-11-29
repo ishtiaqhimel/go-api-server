@@ -13,14 +13,14 @@ import (
 	"syscall"
 )
 
-func CallRoutes(port string) {
+func CallRoutes(username, password, port string) {
 	students := db.NewStudent()
 	subjects := db.NewSubject()
 
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 
-	r.Post("/api/login", auth.BasicAuth(handler.LogIn))
+	r.Post("/api/login", auth.BasicAuth(username, password, handler.LogIn))
 
 	// Student APIs
 	r.Get("/api/student", auth.JWTAuth(handler.StudentGet(students)))

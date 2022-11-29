@@ -7,21 +7,16 @@ import (
 	"github.com/ishtiaqhimel/go-api-server/utils"
 	"log"
 	"net/http"
-	"os"
 	"strings"
 	"time"
 )
 
-var (
-	username string
-	password string
-)
+var uname string
 
-func BasicAuth(next http.HandlerFunc) http.HandlerFunc {
+func BasicAuth(username, password string, next http.HandlerFunc) http.HandlerFunc {
+	uname = username
+
 	return func(w http.ResponseWriter, r *http.Request) {
-		username = os.Getenv("username")
-		password = os.Getenv("password")
-
 		var data map[string]string
 		json.NewDecoder(r.Body).Decode(&data)
 		key := data["username"] + ":" + data["password"]
@@ -45,7 +40,7 @@ func BasicAuth(next http.HandlerFunc) http.HandlerFunc {
 func GetToken() (string, error) {
 	key := []byte(utils.SECRET_KEY)
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"name": username,
+		"name": uname,
 		"exp":  time.Now().Add(600 * time.Second).Unix(),
 	})
 	tokenString, err := token.SignedString(key)

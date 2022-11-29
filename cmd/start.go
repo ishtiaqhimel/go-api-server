@@ -7,6 +7,11 @@ import (
 	"log"
 )
 
+var (
+	username string
+	password string
+)
+
 // startCmd represents the start command
 var startCmd = &cobra.Command{
 	Use:   "start",
@@ -14,7 +19,7 @@ var startCmd = &cobra.Command{
 	Long:  `Start the api server on port 3000 by default`,
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Println("start called! start the server from  point..")
-		api.CallRoutes(utils.PORT)
+		api.CallRoutes(username, password, utils.PORT)
 	},
 }
 
@@ -30,4 +35,6 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// startCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	startCmd.PersistentFlags().StringVarP(&username, "username", "u", "admin", "set username for the app")
+	startCmd.PersistentFlags().StringVarP(&password, "password", "p", "admin", "set username for the app")
 }
