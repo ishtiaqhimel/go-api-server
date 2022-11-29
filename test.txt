@@ -52,3 +52,15 @@ await fetch('/student/1604099', {
 	method: 'DELETE',
 	headers: { 'content-type': 'application/json' },
 })
+
+Add Subject:
+
+await fetch('/subject', {
+	method: 'POST',
+	headers: { 'content-type': 'application/json' },
+	body: JSON.stringify({
+		id: '101',
+		title: 'Computer Fundamentals',
+		code: 'CSE-101',
+	})
+})

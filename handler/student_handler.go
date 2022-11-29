@@ -9,14 +9,14 @@ import (
 	"strings"
 )
 
-func StudentGet(students db.Getter) http.HandlerFunc {
+func StudentGet(students db.StudentService) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		data := students.GetAll()
 		json.NewEncoder(w).Encode(data)
 	}
 }
 
-func StudentPost(students db.Adder) http.HandlerFunc {
+func StudentPost(students db.StudentService) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req model.Student
 		json.NewDecoder(r.Body).Decode(&req)
@@ -25,7 +25,7 @@ func StudentPost(students db.Adder) http.HandlerFunc {
 	}
 }
 
-func StudentUpdate(students db.Update) http.HandlerFunc {
+func StudentUpdate(students db.StudentService) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := parseURL(r.URL.Path)
 		var req model.Student
@@ -34,7 +34,7 @@ func StudentUpdate(students db.Update) http.HandlerFunc {
 	}
 }
 
-func StudentDelete(students db.Delete) http.HandlerFunc {
+func StudentDelete(students db.StudentService) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := parseURL(r.URL.Path)
 		log.Println(id)

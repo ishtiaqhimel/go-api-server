@@ -7,11 +7,7 @@ type StudentRepo struct {
 	Students []model.Student
 }
 
-type SubjectRepo struct {
-	Subjects []model.Subject
-}
-
-func New() *StudentRepo {
+func NewStudent() *StudentRepo {
 	return &StudentRepo{
 		Students: []model.Student{
 			{
@@ -45,6 +41,13 @@ func New() *StudentRepo {
 	}
 }
 
+type StudentService interface {
+	GetAll() []model.Student
+	Add(student model.Student)
+	DeleteById(id string)
+	UpdateById(id string, student model.Student)
+}
+
 func (r *StudentRepo) Add(student model.Student) {
 	r.Students = append(r.Students, student)
 }
@@ -72,20 +75,4 @@ func (r *StudentRepo) UpdateById(id string, stud model.Student) {
 			return
 		}
 	}
-}
-
-type Getter interface {
-	GetAll() []model.Student
-}
-
-type Adder interface {
-	Add(student model.Student)
-}
-
-type Delete interface {
-	DeleteById(id string)
-}
-
-type Update interface {
-	UpdateById(id string, student model.Student)
 }
