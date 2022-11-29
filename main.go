@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-	"github.com/ishtiaqhimel/slice-tricks/db"
-	"github.com/ishtiaqhimel/slice-tricks/handler"
+	"github.com/ishtiaqhimel/go-api-server/db"
+	"github.com/ishtiaqhimel/go-api-server/handler"
 	"log"
 	"net/http"
 )

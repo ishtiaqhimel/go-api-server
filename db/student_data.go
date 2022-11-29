@@ -1,6 +1,6 @@
 package db
 
-import "github.com/ishtiaqhimel/slice-tricks/model"
+import "github.com/ishtiaqhimel/go-api-server/model"
 
 // StudentRepo In memory Database for student
 type StudentRepo struct {

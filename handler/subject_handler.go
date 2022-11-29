@@ -2,8 +2,8 @@ package handler
 
 import (
 	"encoding/json"
-	"github.com/ishtiaqhimel/slice-tricks/db"
-	"github.com/ishtiaqhimel/slice-tricks/model"
+	"github.com/ishtiaqhimel/go-api-server/db"
+	"github.com/ishtiaqhimel/go-api-server/model"
 	"net/http"
 )
 
