@@ -34,7 +34,7 @@ func BasicAuth(next http.HandlerFunc) http.HandlerFunc {
 		}
 
 		if username != user || password != pass {
-			http.Error(w, "Not Authorized", http.StatusUnauthorized)
+			http.Error(w, "Not Authorized: Username or Password Mismatched", http.StatusUnauthorized)
 			return
 		}
 
