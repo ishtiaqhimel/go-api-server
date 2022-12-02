@@ -52,7 +52,6 @@ Installation
 CLI Commands
 * build the app locally `make build`
 * help with the start commands `./bin/apiserver start -h` or `./bin/apiserver start --help`
-* build docker `go-api-server` image with command `docker build -t go-api-server .`
 ---
 Authentication Method
 * Basic Authentication
