@@ -32,7 +32,7 @@ WORKDIR /root/
 COPY --from=builder /app/apiserver .
 
 # Expose port 8080 to the outside world
-EXPOSE 8080
+EXPOSE 3000
 
 # Command to run the executable
 CMD ["./apiserver", "start"]
