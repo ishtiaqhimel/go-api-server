@@ -45,7 +45,7 @@ type Subject struct {
 ---
 
 Installation
-* `go install github.com/ishtiaqhimel/go-api-server`
+* `go install github.com/ishtiaqhimel/go-api-server@latest`
 
 ---
 
