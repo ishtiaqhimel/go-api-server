@@ -47,6 +47,8 @@ type Subject struct {
 Installation
 * `go install github.com/ishtiaqhimel/go-api-server@latest`
 
+Run
+* go-api-server start
 ---
 
 CLI Commands
