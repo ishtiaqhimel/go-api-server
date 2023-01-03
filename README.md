@@ -48,7 +48,7 @@ Installation
 * `go install github.com/ishtiaqhimel/go-api-server@latest`
 
 Run
-* go-api-server start
+* 'go-api-server start'
 ---
 
 CLI Commands
