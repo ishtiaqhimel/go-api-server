@@ -1,5 +1,5 @@
 build:
-	go build -o apiserver . && mv apiserver ./bin
+	go build -o apiserver . && mkdir -p ./bin && mv apiserver ./bin
 
 fmt:
 	go fmt ./...
